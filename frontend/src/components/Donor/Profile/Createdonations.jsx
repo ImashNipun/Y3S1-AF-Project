@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 //////////pass current date current date
 
-const Createdonations = () => {
+const CreateDonations = () => {
   return (
     <Container fluid>
       <Row className="ps-5 pe-5 pt-3">
@@ -144,4 +144,4 @@ const Createdonations = () => {
   );
 };
 
-export default Createdonations;
+export default CreateDonations;

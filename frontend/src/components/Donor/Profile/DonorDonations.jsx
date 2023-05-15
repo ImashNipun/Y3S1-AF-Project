@@ -5,18 +5,18 @@ import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
 
-const DonationItem = () => {
+const DonorDonations = () => {
   return (
     <Container>
       <Row>
         <Col>
           <Row>
             <Col md="9">
-              <h2>My donations</h2>
+              <h2>My donations</h2><br></br>
             </Col>
             <Col className="add-col">
               <Button variant="primary">
-                <a className="addDonations-btn" href="/create-donations">
+                <a className="addDonations-btn" href="/create/donations">
                   +Add a Donation
                 </a>
               </Button>
@@ -83,4 +83,4 @@ const DonationItem = () => {
   );
 };
 
-export default DonationItem;
+export default DonorDonations;
