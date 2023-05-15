@@ -9,8 +9,11 @@ const DonorRequests = () => {
     <Container fluid>
       <Row className="request-main-row">
         <Col>
+          <h2>Donation Requests</h2>
+          <br></br>
+
           {/* request */}
-          <Row  className="request-row">
+          <Row className="request-row">
             <Col md="2">
               <img src={profile} alt="profile" className="donor-request-img" />
             </Col>
@@ -36,7 +39,7 @@ const DonorRequests = () => {
           {/* request */}
 
           {/* request */}
-          <Row  className="request-row">
+          <Row className="request-row">
             <Col md="2">
               <img src={profile} alt="profile" className="donor-request-img" />
             </Col>
@@ -62,7 +65,7 @@ const DonorRequests = () => {
           {/* request */}
 
           {/* request */}
-          <Row  className="request-row">
+          <Row className="request-row">
             <Col md="2">
               <img src={profile} alt="profile" className="donor-request-img" />
             </Col>

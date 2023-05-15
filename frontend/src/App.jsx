@@ -7,20 +7,28 @@ import AdminDashboard from "./components/Admin/AdminDashboard";
 import AllRecipe from "./components/Admin/Recipe/AllRecipe";
 import AddRecipe from "./components/Admin/Recipe/AddRecipe";
 
+//--------------IT21028878-------------------
+
+//Donor
 import Donorsignup from "./components/Donor/Auth/Donorsignup";
 import Login from "./components/Donor/Auth/Login";
+
+//Admin
 import Alldonors from "./components/Admin/Donor/Alldonors";
-import DonationItem from "./components/Donor/Profile/DonationItem";
-// import DonorProfileSideBar from "./components/Donor/Profile/DonorProfileSideBar";
-// import DonorProfileEditForm from "./components/Donor/Profile/DonorProfileEditForm";
-// import DonorAddDonations from "./components/Donor/Profile/DonorAddDonations";
-import AllDonations from "./components/Donor/Donations/AllDonations";
 import Alldonations from "./components/Admin/Donor/Alldonations"
 
+//Donations
+import AllDonations from "./components/Donor/Donations/AllDonations";
+
+//Profile
+import DonorDonations from "./components/Donor/Profile/DonorDonations";
 import DonorProfile from "./components/Donor/Profile/DonorProfile";
 import DonorEditProfile from "./components/Donor/Profile/DonorEditProfile";
-import Createdonations from "./components/Donor/Profile/Createdonations";
-import DonationRequests from "./components/Donor/Profile/DonationRequests" 
+import CreateDonations from "./components/Donor/Profile/CreateDonations";
+import DonorRequests from "./components/Donor/Profile/DonorRequests";
+//---------------------------------------------------------------------------
+
+
 
 import "./App.css";
 
@@ -31,12 +39,12 @@ function App() {
         <Route index />
         <Route path="/services" element={<Service />} />
         <Route path="/recipe" element={<AllRecipes />} />
-        <Route path="/create-donations" element={<Createdonations />} />
+        <Route path="/create/donations" element={<CreateDonations />} />
 
         <Route path="/donor/profile" element={<DonorProfile />}>
+          <Route index element={<DonorDonations />} />  
           <Route path="/donor/profile/edit" element={<DonorEditProfile />} />
-          <Route index element={<DonationItem />} />
-          <Route path="/donor/profile/request" element={<DonationRequests />} />
+          <Route path="/donor/profile/request" element={<DonorRequests />} />
         </Route>
 
       </Route>
@@ -49,9 +57,9 @@ function App() {
         <Route path="/admin/alldonations" element={<Alldonations />} />
       </Route>
 
+      {/* IT21028878 */}
       <Route path="/signup-donor" element={<Donorsignup />} />
       <Route path="/Login" element={<Login />} />
-
       <Route path="/donationList" element={<AllDonations />} />
     </Routes>
   );
