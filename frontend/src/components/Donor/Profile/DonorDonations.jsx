@@ -46,6 +46,7 @@ const DonorDonations = () => {
                 <th>Quantity</th>
                 <th>Unit</th>
                 <th>Expire date</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -56,6 +57,7 @@ const DonorDonations = () => {
                 <td>5</td>
                 <td>Kg</td>
                 <td>2025.05.02</td>
+                <td>Pending</td>
               </tr>
 
               <tr>
@@ -65,6 +67,7 @@ const DonorDonations = () => {
                 <td>10</td>
                 <td>Kg</td>
                 <td>2023.12.12</td>
+                <td>Requested</td>
               </tr>
 
               <tr>
@@ -74,6 +77,7 @@ const DonorDonations = () => {
                 <td>10</td>
                 <td>Packets</td>
                 <td>2023.07.10</td>
+                <td>Confirm</td>
               </tr>
             </tbody>
           </Table>

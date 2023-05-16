@@ -7,14 +7,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Alldonors = () => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/donors")
-      .then((res) => setData(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8000/api/donors")
+  //     .then((res) => setData(res.data))
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   return (
     <Container fluid>
@@ -36,7 +36,7 @@ const Alldonors = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((donor, index) => {
+              {/* {data.map((donor, index) => {
                 return (
                   <tr key={index}>
                     <td>{donor._id}</td>
@@ -48,7 +48,7 @@ const Alldonors = () => {
                     <td>{donor.tele.phoneb}</td>
                   </tr>
                 );
-              })}
+              })} */}
             </tbody>
           </Table>
         </Col>

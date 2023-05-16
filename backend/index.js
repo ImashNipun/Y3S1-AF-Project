@@ -1,8 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const recipeRoute = require("./routes/recipeRoute");
+
+//database connection
 const connection = require('./dbconnection/dbconnection');
+
+//routes
+const recipeRoute = require("./routes/recipeRoute");
+const donationRoute = require("./routes/donationsRoute");
 
 const PORT = process.env.PORT || 5000;
 
@@ -12,9 +17,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/recipe',recipeRoute);
+app.use('/api/donations',donationRoute)
 
-connection.once('open',()=>{
-    console.log('Product Service DB connected successfully!!');
+connection.once("open",()=>{
+    console.log('The database connection is succeed!!');
 });
 
 app.listen(PORT,()=>{
