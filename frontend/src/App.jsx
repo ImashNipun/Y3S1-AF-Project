@@ -15,10 +15,12 @@ import Login from "./components/Donor/Auth/Login";
 
 //Admin
 import Alldonors from "./components/Admin/Donor/Alldonors";
-import Alldonations from "./components/Admin/Donor/Alldonations"
+import {Alldonations} from "./components/Admin/Donor/Alldonations";
+import { AcceptedDonations } from "./components/Admin/Donor/AcceptedDonations";
+import NotAcceptDonations from "./components/Admin/Donor/NotAcceptDonations"
 
 //Donations
-import AllDonations from "./components/Donor/Donations/AllDonations";
+import DonationList from "./components/Donor/Donations/DonationList";
 
 //Profile
 import DonorDonations from "./components/Donor/Profile/DonorDonations";
@@ -48,19 +50,24 @@ function App() {
         </Route>
 
       </Route>
+
       <Route path="/admin" element={<AdminDashboard />}>
         <Route index />
         <Route path="/admin/recipe" element={<AllRecipe />} />
         <Route path="/admin/add-recipe" element={<AddRecipe />} />
 
         <Route path="/admin/alldonors" element={<Alldonors />} />
-        <Route path="/admin/alldonations" element={<Alldonations />} />
+
+        <Route path="/admin/alldonations" element={<Alldonations />}>
+          <Route index element={<NotAcceptDonations/>}/>
+          <Route path="/admin/alldonations/accepted" element={<AcceptedDonations/>}/>
+        </Route>
       </Route>
 
       {/* IT21028878 */}
       <Route path="/signup-donor" element={<Donorsignup />} />
       <Route path="/Login" element={<Login />} />
-      <Route path="/donationList" element={<AllDonations />} />
+      <Route path="/donationList" element={<DonationList />} />
     </Routes>
   );
 }

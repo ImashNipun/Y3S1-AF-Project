@@ -4,9 +4,45 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-//////////pass current date current date
+import { useState } from "react";
+import { compareAsc, format } from "date-fns";
+import axios from "axios";
 
 const CreateDonations = () => {
+  const [donations, setDonation] = useState({
+    donorid: "447347505504",
+    donorname: "Shamal Aravinda",
+    food: "",
+    quantity: "",
+    unit: "",
+    expiredate: "",
+    currentdate: format(new Date(), "yyyy-MM-dd"),
+    status: "Not accepted",
+    description: "",
+  });
+
+  const currDate = new Date(donations.currentdate);
+  const dueDate = currDate.getDate()+7;
+
+  const expDate = new Date(donations.expiredate);
+  const correctDate = expDate.getDate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (correctDate >= dueDate) {
+      axios
+        .post("http://localhost:8000/api/donations", donations)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    }
+    else{
+      console.log("Can not donate");
+    }
+  };
+
   return (
     <Container fluid>
       <Row className="ps-5 pe-5 pt-3">
@@ -14,7 +50,7 @@ const CreateDonations = () => {
           <Row className="m-5 bg-white">
             {/* Form column */}
             <Col md="6" className="colA-createdonations p-0">
-              <Form className="donation-frm">
+              <Form className="donation-frm" onSubmit={handleSubmit}>
                 <h2>Create a Donation</h2>
 
                 {/* form lables */}
@@ -25,6 +61,9 @@ const CreateDonations = () => {
                   <Form.Control
                     type="text"
                     placeholder="Enter dry food"
+                    onChange={(e) =>
+                      setDonation({ ...donations, food: e.target.value })
+                    }
                     required
                   />
                 </Form.Group>
@@ -37,6 +76,12 @@ const CreateDonations = () => {
                       <Form.Control
                         type="number"
                         placeholder="Enter Quantity"
+                        onChange={(e) =>
+                          setDonation({
+                            ...donations,
+                            quantity: e.target.value,
+                          })
+                        }
                         required
                       />
                     </Form.Group>
@@ -46,11 +91,17 @@ const CreateDonations = () => {
                   <Col>
                     <Form.Label>Unit</Form.Label>
                     <Form.Group className="mb-3" controlId="formBasicUnit">
-                      <Form.Select aria-label="Default select example">
+                      <Form.Select
+                        onChange={(e) =>
+                          setDonation({ ...donations, unit: e.target.value })
+                        }
+                        aria-label="Default select example"
+                      > 
+                        <option value="Select value">Select unit type</option>
                         <option value="Kg">Kg</option>
                         <option value="Leters">Leters</option>
                         <option value="Packets">Packets</option>
-                        <option value="Botteled">Botteles</option>
+                        <option value="Botteles">Botteles</option>
                         <option value="Items">Items</option>
                       </Form.Select>
                     </Form.Group>
@@ -62,6 +113,9 @@ const CreateDonations = () => {
                 <Form.Group
                   className="mb-3"
                   as={Col}
+                  onChange={(e) =>
+                    setDonation({ ...donations, expiredate: e.target.value })
+                  }
                   controlId="formBasicExpdate"
                 >
                   <Form.Control
@@ -70,12 +124,6 @@ const CreateDonations = () => {
                     required
                   />
                 </Form.Group>
-
-                {/* button */}
-                <div className="donation-save-btn">
-                  <Button id="donatinSaveBtn">Save</Button>
-                </div>
-                <br></br>
 
                 <Form.Group
                   className="mb-3"
@@ -86,17 +134,10 @@ const CreateDonations = () => {
                     rows={5}
                     placeholder="Description"
                     required
+                    onChange={(e) =>
+                      setDonation({ ...donations, description: e.target.value })
+                    }
                   />
-                </Form.Group>
-
-                {/*current date*/}
-
-                <Form.Group
-                  className="mb-3"
-                  as={Col}
-                  controlId="formBasicCurrentdate"
-                >
-                  <Form.Control type="hidden" required />
                 </Form.Group>
 
                 {/* button */}
@@ -111,32 +152,7 @@ const CreateDonations = () => {
             {/* Form column */}
 
             {/* Donation list column column */}
-            <Col className="colB-createdonations ps-5">
-              <Row className="card-createdonations">
-                <Col>Suger</Col>
-
-                <Col>2 packets</Col>
-
-                <Col>2023.05.02</Col>
-
-                <Col>
-                  <Button>Delete</Button>
-                </Col>
-              </Row>
-
-              <Row className="card-createdonations">
-                <Col>Suger</Col>
-
-                <Col>2 packets</Col>
-
-                <Col>2023.05.02</Col>
-
-                <Col>
-                  <Button>Delete</Button>
-                </Col>
-                {/* Donation list column column */}
-              </Row>
-            </Col>
+            <Col className="colB-createdonations ps-5"></Col>
           </Row>
         </Col>
       </Row>

@@ -10,12 +10,20 @@ const getAllDonations = async (req, res) => {
 //create a donations
 const createDonations = async (req, res) => {
   //add data to the db
-  const { donation, description } = req.body;
+  const { donorid,donorname,food,quantity,unit,expiredate,currentdate,status,description } = req.body;
 
   try {
     const donations = await Donations.create({
-      donation,
-      description,
+      donorid,
+      donorname,
+      food,
+      quantity,
+      unit,
+      expiredate,
+      currentdate,
+      status,
+      description
+      
     });
     res.status(200).json(donations);
   } catch (error) {
