@@ -21,7 +21,6 @@ const DonorProfile = () => {
             {/* content */}
             <Col className="donor-prof-content">
               <Row className="ps-5 pe-5">
-                {/* <DonationItem /> */}
                 <Outlet />
               </Row>
             </Col>

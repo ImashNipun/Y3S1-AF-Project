@@ -4,8 +4,19 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Alldonations = () => {
+  const [donations, setDonations] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/donations")
+      .then((res) => setDonations(res.data))
+      .catch((err) => console.log(err));
+  });
+
   return (
     <Container fluid>
       <Row>
@@ -23,26 +34,31 @@ const Alldonations = () => {
                 <th>quantity</th>
                 <th>Unit</th>
                 <th>Expire date</th>
-                <th>Confirm</th>
+                <th>Accept</th>
                 <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>2023.04.12</td>
-                <td>Miulesi Kulasekara</td>
-                <td>Pumkin</td>
-                <td>5</td>
-                <td>Kg</td>
-                <td>2023.04.16</td>
-                <td>
-                  <Button>Confirm</Button>
-                </td>
-                <td>
-                  <Button>Delete</Button>
-                </td>
-              </tr>
+              {donations.map((donations, index) => {
+                index++;
+                return (
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{donations.donation.currentdate}</td>
+                    <td>{donations.donation.donorname}</td>
+                    <td>{donations.donation.food}</td>
+                    <td>{donations.donation.quantity}</td>
+                    <td>{donations.donation.unit}</td>
+                    <td>{donations.donation.expiredate}</td>
+                    <td>
+                      <Button>Accept</Button>
+                    </td>
+                    <td>
+                      <Button>Delete</Button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </Col>
