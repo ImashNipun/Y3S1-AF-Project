@@ -5,6 +5,9 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import signupImg from "../../../img/1.jpg";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 
 const Donorsignup = () => {
