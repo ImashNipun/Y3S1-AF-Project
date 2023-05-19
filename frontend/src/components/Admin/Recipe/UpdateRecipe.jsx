@@ -1,12 +1,13 @@
 import React, { useState, useReducer } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Form, Table, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./admin.recipe.style.css";
 import axios from "axios";
+import { useEffect } from "react";
 
-export default function AddRecipe() {
+export default function UpdateRecipe() {
   const [value, setValue] = useState({
     recipe_name: "",
     recipe_type: "",
@@ -25,8 +26,18 @@ export default function AddRecipe() {
     type: "",
   });
 
+  const [mainIngISate,setMainIngISate] = useState([]);
+  const [subIngISate,setSubIngISate] = useState([]);
+  const [isData,setIsData] = useState(false);
+
+//   console.log(mainIngISate);
+//   console.log(subIngISate);
+
   const [mState, mIngDispatch] = useReducer(mIngReducer, []);
   const [sState, sIngDispatch] = useReducer(sIngReducer, []);
+
+  const params = useParams();
+  const navigation = useNavigate();
 
   const handleMainIngSave = (e) => {
     e.preventDefault();
@@ -41,15 +52,45 @@ export default function AddRecipe() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:8000/api/recipe/", {
+      .patch(`http://localhost:8000/api/recipe/${params.rid}`, {
         ...value,
         main_ingredients: [...mState],
         sub_ingredients: [...sState],
       })
       .then((response) => {
-        console.log(response);
+        navigation("/admin/recipe");
       });
   };
+
+  useEffect(() => {
+    const handleFill = async () => {
+      await axios.get(`http://localhost:8000/api/recipe/${params.rid}`).then((response) => {
+        setValue({
+          recipe_name: response.data.recipe_name,
+          recipe_type: response.data.recipe_type,
+          description: response.data.description,
+        });
+        setMainIngISate(response.data.main_ingredients);
+        setSubIngISate(response.data.sub_ingredients);
+        setIsData(true);
+
+
+      });
+    };
+
+    handleFill();
+  }, []);
+
+  useEffect(()=>{
+
+    mainIngISate.map((ing)=>{
+        mIngDispatch({ type: "add", payload: ing });
+    })
+    
+    subIngISate.map((ing)=>{
+        sIngDispatch({ type: "add", payload: ing });
+    })
+  },[isData])
 
   return (
     <Container>
@@ -71,6 +112,7 @@ export default function AddRecipe() {
                     type="text"
                     placeholder="Beef Welington"
                     name="recipe_name"
+                    value={value.recipe_name}
                     onChange={(e) =>
                       setValue({
                         ...value,
@@ -85,6 +127,7 @@ export default function AddRecipe() {
                     type="text"
                     placeholder="Dessert"
                     name="recipe_type"
+                    value={value.recipe_type}
                     onChange={(e) =>
                       setValue({
                         ...value,
@@ -108,6 +151,7 @@ export default function AddRecipe() {
                     rows={3}
                     name="description"
                     id="descriptionInput"
+                    value={value.description}
                     onChange={(e) =>
                       setValue({
                         ...value,
@@ -117,7 +161,7 @@ export default function AddRecipe() {
                   />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                  Submit
+                  Update
                 </Button>
               </Col>
               <Col md={3} className="ps-4 pe-4 border-end">
@@ -129,6 +173,7 @@ export default function AddRecipe() {
                         type="text"
                         placeholder="Enter the ingrediant"
                         name="ingredient_name"
+                        value={mainIng.ingredient_name}
                         onChange={(e) =>
                           setMainIng({
                             ...mainIng,
@@ -145,6 +190,7 @@ export default function AddRecipe() {
                           min={0}
                           placeholder="0"
                           name="qty"
+                          value={mainIng.qty}
                           onChange={(e) =>
                             setMainIng({
                               ...mainIng,
@@ -158,6 +204,7 @@ export default function AddRecipe() {
                         <Form.Select
                           aria-label="Default select example"
                           name="type"
+                          value={mainIng.type}
                           onChange={(e) =>
                             setMainIng({
                               ...mainIng,
@@ -180,28 +227,30 @@ export default function AddRecipe() {
                 <Row className="p-2">
                   <Col>
                     {/*  */}
-                    {mState.map((mState) => {
-                      return (
-                        <Row className="border-top mb-1 p-1">
-                          <Col>{mState.ingredient_name}</Col>
-                          <Col md={4}>
-                            {mState.qty} {mState.type}
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              onClick={() =>
-                                mIngDispatch({
-                                  type: "delete",
-                                  payload: mState.ingredient_name,
-                                })
-                              }
-                            >
-                              X
-                            </Button>
-                          </Col>
-                        </Row>
-                      );
-                    })}
+                    {mState
+                      ? mState.map((mState) => {
+                          return (
+                            <Row className="border-top mb-1 p-1">
+                              <Col>{mState.ingredient_name}</Col>
+                              <Col md={4}>
+                                {mState.qty} {mState.type}
+                              </Col>
+                              <Col md={2}>
+                                <Button
+                                  onClick={() =>
+                                    mIngDispatch({
+                                      type: "delete",
+                                      payload: mState.ingredient_name,
+                                    })
+                                  }
+                                >
+                                  X
+                                </Button>
+                              </Col>
+                            </Row>
+                          );
+                        })
+                      : null}
                     {/*  */}
                   </Col>
                 </Row>
@@ -215,6 +264,7 @@ export default function AddRecipe() {
                         type="text"
                         placeholder="Enter Sub Ingrediant"
                         name="ingredient_name"
+                        value={subIng.ingredient_name}
                         onChange={(e) =>
                           setSubIng({
                             ...subIng,
@@ -231,6 +281,7 @@ export default function AddRecipe() {
                           min={0}
                           placeholder="0"
                           name="qty"
+                          value={subIng.qty}
                           onChange={(e) =>
                             setSubIng({
                               ...subIng,
@@ -244,6 +295,7 @@ export default function AddRecipe() {
                         <Form.Select
                           aria-label="Default select example"
                           name="type"
+                          value={subIng.type}
                           onChange={(e) =>
                             setSubIng({
                               ...subIng,
@@ -265,28 +317,30 @@ export default function AddRecipe() {
                 </Row>
                 <Row className="p-2">
                   <Col>
-                    {sState.map((sState) => {
-                      return (
-                        <Row className="border-top mb-1 p-1">
-                          <Col>{sState.ingredient_name}</Col>
-                          <Col md={4}>
-                            {sState.qty} {sState.type}
-                          </Col>
-                          <Col md={2}>
-                            <Button
-                              onClick={() =>
-                                sIngDispatch({
-                                  type: "delete",
-                                  payload: sState.ingredient_name,
-                                })
-                              }
-                            >
-                              X
-                            </Button>
-                          </Col>
-                        </Row>
-                      );
-                    })}
+                    {sState
+                      ? sState.map((sState) => {
+                          return (
+                            <Row className="border-top mb-1 p-1">
+                              <Col>{sState.ingredient_name}</Col>
+                              <Col md={4}>
+                                {sState.qty} {sState.type}
+                              </Col>
+                              <Col md={2}>
+                                <Button
+                                  onClick={() =>
+                                    sIngDispatch({
+                                      type: "delete",
+                                      payload: sState.ingredient_name,
+                                    })
+                                  }
+                                >
+                                  X
+                                </Button>
+                              </Col>
+                            </Row>
+                          );
+                        })
+                      : null}
                   </Col>
                 </Row>
               </Col>

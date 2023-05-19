@@ -5,14 +5,17 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import loginImg from "../../../img/5.jpg";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <Container
-      fluid
-    >
-      <Row className="m-auto text-center" style={{width:"30%"}}>
-        <Col className="fs-2 pt-5 pb-5" style={{fontWeight:"700"}}>PlatePal</Col>
+    <Container fluid>
+      <Row className="m-auto text-center" style={{ width: "30%" }}>
+        <Col className="fs-2 pt-5 pb-5" style={{ fontWeight: "700" }}>
+          <Link className="text-decoration-none text-dark" to="/">
+            PlatePal
+          </Link>
+        </Col>
       </Row>
       <Row>
         <Col>

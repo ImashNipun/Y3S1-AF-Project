@@ -5,8 +5,7 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import signupImg from "../../../img/1.jpg";
-import { useState } from "react";
-import axios from "axios";
+
 
 const Donorsignup = () => {
   const [donor, setDonor] = useState({
@@ -33,9 +32,14 @@ const Donorsignup = () => {
   return (
     <Container
       fluid
-      className="d-flex align-items-center"
+      className="d-flex-col align-items-center "
       style={{ height: "100vh" }}
     >
+      <Row className="m-auto text-center" style={{ width: "30%" }}>
+        <Col className="fs-2 pt-5 pb-4" style={{ fontWeight: "700" }}>
+          <Link className="text-decoration-none text-dark" to="/">PlatePal</Link>
+        </Col>
+      </Row>
       <Row
         className="signup-row m-auto bg-white"
         style={{ borderRadius: "15px" }}
