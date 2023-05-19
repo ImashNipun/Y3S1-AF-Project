@@ -15,8 +15,8 @@ export default function Navbar() {
             </Col>
             <Col md={2} >
                 <div className='float-end'>
-                <Button>Login</Button>
-                <Button className='ms-2 bg-light' variant='light'>Signup</Button>
+                <Link className='btn btn-primary' to="/Login">Login</Link>
+                <Link className='btn btn-primary ms-2' to="/signup-donor">SignUp</Link>
                 </div>
             </Col>
         </Row>
