@@ -26,27 +26,28 @@ import DonationList from "./components/Donor/Donations/DonationList";
 import DonorDonations from "./components/Donor/Profile/DonorDonations";
 import DonorProfile from "./components/Donor/Profile/DonorProfile";
 import DonorEditProfile from "./components/Donor/Profile/DonorEditProfile";
-import CreateDonations from "./components/Donor/Profile/CreateDonations";
+import CreateDonations from "./components/Donor/Profile/Createdonations";
 import DonorRequests from "./components/Donor/Profile/DonorRequests";
+import { CreateDonationError } from "./components/Donor/Profile/CreateDonationError";
 //---------------------------------------------------------------------------
-
-
 
 import "./App.css";
 
 function App() {
+  let id = "6465bcdaf92f0b983050cb4e";
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index />
         <Route path="/services" element={<Service />} />
         <Route path="/recipe" element={<AllRecipes />} />
-        <Route path="/create/donations" element={<CreateDonations />} />
+        <Route path="/donationList" element={<DonationList />} />
+        <Route path={`/create/donations/${id}`} element={<CreateDonations />} />
 
-        <Route path="/donor/profile" element={<DonorProfile />}>
+        <Route path={`/donor/profile/${id}`} element={<DonorProfile />}>
           <Route index element={<DonorDonations />} />  
-          <Route path="/donor/profile/edit" element={<DonorEditProfile />} />
-          <Route path="/donor/profile/request" element={<DonorRequests />} />
+          <Route path={`/donor/profile/${id}/edit`} element={<DonorEditProfile />} />
+          <Route path={`/donor/profile/${id}/request`} element={<DonorRequests />} />
         </Route>
 
       </Route>
@@ -67,7 +68,8 @@ function App() {
       {/* IT21028878 */}
       <Route path="/signup-donor" element={<Donorsignup />} />
       <Route path="/Login" element={<Login />} />
-      <Route path="/donationList" element={<DonationList />} />
+      
+      <Route path="/donationError" element={<CreateDonationError />} />
     </Routes>
   );
 }

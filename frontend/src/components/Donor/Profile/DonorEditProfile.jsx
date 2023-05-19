@@ -4,8 +4,45 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const DonorEditProfile = () => {
+
+  const id = "6465bcdaf92f0b983050cb4e";
+
+  const [donor, setDonor] = useState({
+    password: "",
+    address: "",
+    location: "",
+    phonea: "",
+    phoneb: "",
+  });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/donors/" + id)
+      .then((res) => {
+        return setDonor(res.data);
+      })
+      .catch((err) => console.log(err));
+  },[]);
+
+  const navigate = useNavigate();
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    axios
+      .patch("http://localhost:8000/api/donors/" + id, donor)
+      .then((res) => {
+        navigate(`/donor/profile/${id}`);
+        console.log('updated');
+        return setDonor(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Container fluid>
       <Row className="donor-edit-prof-row">
@@ -17,7 +54,7 @@ const DonorEditProfile = () => {
           <br></br>
 
           <Row>
-            <Form>
+            <Form onSubmit={handleUpdate}>
               {/* form lables */}
 
               <Row>
@@ -27,7 +64,10 @@ const DonorEditProfile = () => {
                   <Form.Control
                     type="password"
                     placeholder="Enter password"
-                    value="123213123"
+                    value={donor.password}
+                    onChange={(e) =>
+                      setDonor({ ...donor, password: e.target.value })
+                    }
                     required
                   />
                 </Form.Group>
@@ -39,7 +79,10 @@ const DonorEditProfile = () => {
                 <Form.Control
                   type="text"
                   placeholder="Enter address"
-                  value="No: 18/A/1, Rilawala, Polgasowita"
+                  value={donor.address}
+                  onChange={(e) =>
+                    setDonor({ ...donor, address: e.target.value })
+                  }
                   required
                 />
               </Form.Group>
@@ -50,7 +93,10 @@ const DonorEditProfile = () => {
                 <Form.Control
                   type="text"
                   placeholder="Location"
-                  value="Piliyandala"
+                  value={donor.location}
+                  onChange={(e) =>
+                    setDonor({ ...donor, location: e.target.value })
+                  }
                   required
                 />
               </Form.Group>
@@ -67,8 +113,11 @@ const DonorEditProfile = () => {
                   <Form.Control
                     type="tel"
                     placeholder="94 77 111 2223"
-                    value="94 77 111 2223"
+                    value={donor.phonea}
                     pattern="94 [0-9]{2} [0-9]{3} [0-9]{4}"
+                    onChange={(e) =>
+                      setDonor({ ...donor, phonea: e.target.value })
+                    }
                     required
                   />
                 </Form.Group>
@@ -84,8 +133,11 @@ const DonorEditProfile = () => {
                   <Form.Control
                     type="tel"
                     placeholder="94 77 111 2223(Optional)"
-                    value="94 77 111 2223"
+                    value={donor.phoneb}
                     pattern="94 [0-9]{2} [0-9]{3} [0-9]{4}"
+                    onChange={(e) =>
+                      setDonor({ ...donor, phoneb: e.target.value })
+                    }
                   />
                 </Form.Group>
               </Row>
