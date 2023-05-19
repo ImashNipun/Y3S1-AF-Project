@@ -1,4 +1,4 @@
-const Donations = require("../models/donationsModel")
+const Donations = require("../models/donationsModel");
 const mongoose = require("mongoose");
 
 //get all donations
@@ -10,7 +10,17 @@ const getAllDonations = async (req, res) => {
 //create a donations
 const createDonations = async (req, res) => {
   //add data to the db
-  const { donorid,donorname,food,quantity,unit,expiredate,currentdate,status,description } = req.body;
+  const {
+    donorid,
+    donorname,
+    food,
+    quantity,
+    unit,
+    expiredate,
+    currentdate,
+    status,
+    description,
+  } = req.body;
 
   try {
     const donations = await Donations.create({
@@ -22,8 +32,7 @@ const createDonations = async (req, res) => {
       expiredate,
       currentdate,
       status,
-      description
-      
+      description,
     });
     res.status(200).json(donations);
   } catch (error) {
@@ -40,7 +49,7 @@ const getDonation = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(donorid)) {
     return res.status(404).json({ error: "no such donor" });
   }
-  const donation = await Donations.find({"donation.donorid":donorid});
+  const donation = await Donations.find({ "donorid": donorid });
 
   if (!donation) {
     return res.status(404).json({ error: "no such donor" });
@@ -49,4 +58,38 @@ const getDonation = async (req, res) => {
   res.status(200).json(donation);
 };
 
-module.exports = { createDonations, getAllDonations, getDonation };
+//get a donation
+const getAdonation = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const donation = await Donations.findById(id);
+    res.status(200).json(donation);
+  } catch (error) {
+    return res.status(404).json({ error: error });
+  }
+};
+
+
+//update donations
+const updateDonation = async (req, res) => {
+  const id = req.params.id;
+
+  const {status} = req.body;
+
+  try {
+    const update = await Donations.findOneAndUpdate({_id:id}, {status});
+    res.status(200).json(update);
+  } catch (error) {
+    return res.status(404).json({ error: error });
+  }
+};
+
+module.exports = {
+  createDonations,
+  getAllDonations,
+  getDonation,
+  getAdonation,
+  updateDonation,
+};
+

@@ -5,9 +5,30 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import signupImg from "../../../img/1.jpg";
-import { Link } from "react-router-dom";
+
 
 const Donorsignup = () => {
+  const [donor, setDonor] = useState({
+    name: " ",
+    email: " ",
+    password: " ",
+    address: " ",
+    location: " ",
+    phonea: " ",
+    phoneb: " ",
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost:8000/api/donors", donor)
+      .then((res) => {
+        console.log(res);
+        alert("Succsess");
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Container
       fluid
@@ -34,7 +55,7 @@ const Donorsignup = () => {
         ></Col>
 
         <Col className="signup-colB" md="6">
-          <Form className="signup-frm">
+          <Form className="signup-frm" onSubmit={handleSubmit}>
             <h2>Sign up - Donor</h2>
 
             {/* form lables */}
@@ -42,7 +63,12 @@ const Donorsignup = () => {
             {/* name */}
             <Form.Group className="mb-3" controlId="formBasicName">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter name" required />
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                required
+                onChange={(e) => setDonor({ ...donor, name: e.target.value })}
+              />
             </Form.Group>
 
             {/* email */}
@@ -54,7 +80,14 @@ const Donorsignup = () => {
                 controlId="formBasicEmail"
               >
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" required />
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  onChange={(e) =>
+                    setDonor({ ...donor, email: e.target.value })
+                  }
+                  required
+                />
               </Form.Group>
 
               {/* password */}
@@ -68,6 +101,9 @@ const Donorsignup = () => {
                 <Form.Control
                   type="password"
                   placeholder="Enter password"
+                  onChange={(e) =>
+                    setDonor({ ...donor, password: e.target.value })
+                  }
                   required
                 />
               </Form.Group>
@@ -76,13 +112,27 @@ const Donorsignup = () => {
             {/* address */}
             <Form.Group className="mb-3" controlId="formBasicAddress">
               <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Enter address" required />
+              <Form.Control
+                type="text"
+                placeholder="Enter address"
+                onChange={(e) =>
+                  setDonor({ ...donor, address: e.target.value })
+                }
+                required
+              />
             </Form.Group>
 
             {/* Location */}
             <Form.Group className="mb-3" controlId="formBasicLocation">
               <Form.Label>Location</Form.Label>
-              <Form.Control type="text" placeholder="Location" required />
+              <Form.Control
+                type="text"
+                placeholder="Location"
+                onChange={(e) =>
+                  setDonor({ ...donor, location: e.target.value })
+                }
+                required
+              />
             </Form.Group>
 
             {/* phone 1 */}
@@ -98,6 +148,9 @@ const Donorsignup = () => {
                   type="tel"
                   placeholder="94 77 111 2223"
                   pattern="94 [0-9]{2} [0-9]{3} [0-9]{4}"
+                  onChange={(e) =>
+                    setDonor({ ...donor, phonea: e.target.value })
+                  }
                   required
                 />
               </Form.Group>
@@ -114,6 +167,7 @@ const Donorsignup = () => {
                   type="tel"
                   placeholder="94 77 111 2223(Optional)"
                   pattern="94 [0-9]{2} [0-9]{3} [0-9]{4}"
+                  onChange={(e) => setDonor({ ...donor, phoneb: e.target.value })}
                 />
               </Form.Group>
             </Row>

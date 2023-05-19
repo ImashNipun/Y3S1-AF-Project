@@ -1,22 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
 import { Button } from "react-bootstrap";
+import axios from "axios";
 
 const DonorDonations = () => {
+  const id = "6465bcdaf92f0b983050cb4e";
+
+  const [donations, setDonations] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/donations/byadonor/" + id)
+      .then((res) => {
+        // console.log(res.data);
+        return setDonations(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <Container>
       <Row>
         <Col>
           <Row>
             <Col md="9">
-              <h2>My donations</h2><br></br>
+              <h2>My donations</h2>
+              <br></br>
             </Col>
             <Col className="add-col">
               <Button variant="primary">
-                <a className="addDonations-btn" href="/create/donations">
+                <a
+                  className="addDonations-btn"
+                  href={`/create/donations/${id}`}
+                >
                   +Add a Donation
                 </a>
               </Button>
@@ -50,35 +69,22 @@ const DonorDonations = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>2023.04.28</td>
-                <td>Suger</td>
-                <td>5</td>
-                <td>Kg</td>
-                <td>2025.05.02</td>
-                <td>Pending</td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <td>2023.04.19</td>
-                <td>Rice</td>
-                <td>10</td>
-                <td>Kg</td>
-                <td>2023.12.12</td>
-                <td>Requested</td>
-              </tr>
-
-              <tr>
-                <td>3</td>
-                <td>2023.04.17</td>
-                <td>Meatballs</td>
-                <td>10</td>
-                <td>Packets</td>
-                <td>2023.07.10</td>
-                <td>Confirm</td>
-              </tr>
+              {donations.map((donations, index) => {
+                index++;
+                if (donations.status != "Not accepted") {
+                  return (
+                    <tr key={index}>
+                      <td>{index}</td>
+                      <td>{donations.currentdate}</td>
+                      <td>{donations.food}</td>
+                      <td>{donations.quantity}</td>
+                      <td>{donations.unit}</td>
+                      <td>{donations.expiredate}</td>
+                      <td>{donations.status}</td>
+                    </tr>
+                  );
+                }
+              })}
             </tbody>
           </Table>
         </Col>

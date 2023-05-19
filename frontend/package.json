@@ -19,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-quill": "^2.0.0",
-    "react-router-dom": "^6.11.0"
+    "react-router-dom": "^6.11.0",
+    "react-router-url-params": "^0.7.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

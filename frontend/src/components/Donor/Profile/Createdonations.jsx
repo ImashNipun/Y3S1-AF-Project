@@ -5,12 +5,14 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import { compareAsc, format } from "date-fns";
+import { format } from "date-fns";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateDonations = () => {
+  const id = "6465bcdaf92f0b983050cb4e";
   const [donations, setDonation] = useState({
-    donorid: "447347505504",
+    donorid: "6465bcdaf92f0b983050cb4e",
     donorname: "Shamal Aravinda",
     food: "",
     quantity: "",
@@ -22,24 +24,35 @@ const CreateDonations = () => {
   });
 
   const currDate = new Date(donations.currentdate);
-  const dueDate = currDate.getDate()+7;
+  const dueDate = currDate.getDate() + 7;
+  const dueMonth = currDate.getMonth();
+  const dueyr = currDate.getFullYear();
 
   const expDate = new Date(donations.expiredate);
   const correctDate = expDate.getDate();
+  const correctMonth = expDate.getMonth();
+  const correctYr = expDate.getFullYear();
+
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (correctDate >= dueDate) {
+    if (
+      correctDate >= dueDate ||
+      correctMonth > dueMonth ||
+      correctYr > dueyr
+    ) {
       axios
         .post("http://localhost:8000/api/donations", donations)
         .then((res) => {
           console.log(res);
+          navigate(`/donor/profile/${id}`);
         })
         .catch((err) => console.log(err));
-    }
-    else{
+    } else {
       console.log("Can not donate");
+      navigate("/donationError");
     }
   };
 
@@ -49,7 +62,7 @@ const CreateDonations = () => {
         <Col className="service-sec p-5">
           <Row className="m-5 bg-white">
             {/* Form column */}
-            <Col md="6" className="colA-createdonations p-0">
+            <Col md="6" className="colA-createdonations">
               <Form className="donation-frm" onSubmit={handleSubmit}>
                 <h2>Create a Donation</h2>
 
@@ -75,6 +88,7 @@ const CreateDonations = () => {
                     <Form.Group className="mb-3" controlId="formBasicQuantity">
                       <Form.Control
                         type="number"
+                        min="1"
                         placeholder="Enter Quantity"
                         onChange={(e) =>
                           setDonation({
@@ -96,7 +110,7 @@ const CreateDonations = () => {
                           setDonation({ ...donations, unit: e.target.value })
                         }
                         aria-label="Default select example"
-                      > 
+                      >
                         <option value="Select value">Select unit type</option>
                         <option value="Kg">Kg</option>
                         <option value="Leters">Leters</option>
@@ -152,7 +166,7 @@ const CreateDonations = () => {
             {/* Form column */}
 
             {/* Donation list column column */}
-            <Col className="colB-createdonations ps-5"></Col>
+            <Col className="colB-createdonations" md="6"></Col>
           </Row>
         </Col>
       </Row>

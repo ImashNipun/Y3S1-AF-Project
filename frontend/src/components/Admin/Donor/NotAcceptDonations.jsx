@@ -13,9 +13,25 @@ const NotAcceptDonations = () => {
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/donations")
-      .then((res) => setDonations(res.data))
+      .then((res) => {
+        // console.log(res.data);
+        setDonations(res.data);
+      })
       .catch((err) => console.log(err));
-  });
+  }, []);
+
+  const handleAccept = async (value) => {
+    await axios
+      .patch("http://localhost:8000/api/donations/" + value._id, {
+       status : "Accepted"
+      })
+      .then((res) => {
+        console.log(res.data);
+        // return setDonations([res.data]);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Container fluid>
@@ -41,18 +57,20 @@ const NotAcceptDonations = () => {
             <tbody>
               {donations.map((donations, index) => {
                 index++;
-                if (donations.donation.status == "Not accepted") {
+                if (donations.status == "Not accepted") {
                   return (
                     <tr key={index}>
                       <td>{index}</td>
-                      <td>{donations.donation.currentdate}</td>
-                      <td>{donations.donation.donorname}</td>
-                      <td>{donations.donation.food}</td>
-                      <td>{donations.donation.quantity}</td>
-                      <td>{donations.donation.unit}</td>
-                      <td>{donations.donation.expiredate}</td>
+                      <td>{donations.currentdate}</td>
+                      <td>{donations.donorname}</td>
+                      <td>{donations.food}</td>
+                      <td>{donations.quantity}</td>
+                      <td>{donations.unit}</td>
+                      <td>{donations.expiredate}</td>
                       <td>
-                        <Button>Accept</Button>
+                        <Button onClick={() => handleAccept(donations)}>
+                          Accept
+                        </Button>
                       </td>
                       <td>
                         <Button>Delete</Button>
