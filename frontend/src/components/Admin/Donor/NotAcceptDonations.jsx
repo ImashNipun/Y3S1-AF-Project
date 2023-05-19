@@ -15,7 +15,7 @@ const NotAcceptDonations = () => {
       .get("http://localhost:8000/api/donations")
       .then((res) => {
         // console.log(res.data);
-        return setDonations(res.data);
+        setDonations(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -23,12 +23,12 @@ const NotAcceptDonations = () => {
   const handleAccept = async (value) => {
     await axios
       .patch("http://localhost:8000/api/donations/" + value._id, {
-        ...donations,
-        ["status"]: "Accepted",
+       status : "Accepted"
       })
       .then((res) => {
         console.log(res.data);
-        return setDonations(res.data);
+        // return setDonations([res.data]);
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };

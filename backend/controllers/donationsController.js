@@ -78,7 +78,7 @@ const updateDonation = async (req, res) => {
   const {status} = req.body;
 
   try {
-    const update = await Donations.findOneAndUpdate(id, {status});
+    const update = await Donations.findOneAndUpdate({_id:id}, {status});
     res.status(200).json(update);
   } catch (error) {
     return res.status(404).json({ error: error });
