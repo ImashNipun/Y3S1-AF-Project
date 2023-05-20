@@ -8,6 +8,22 @@
     max-height: 75vh;
 }
 
+.search-container{
+    min-height: 100vh;
+    background-color: rgb(36, 36, 36);
+}
+
+.search-column{
+
+    width: 50vw !important;
+    margin: auto !important;
+    margin-top: 45vh !important;
+}
+
+.clickBtn{
+    width: 10vw;
+}
+
 .filter-sec{
     max-height: 50vh;
 }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./nav.style.css";
 
 export default function Navbar() {
-  const id = '6465bcdaf92f0b983050cb4e';
+  const id = "6465bcdaf92f0b983050cb4e";
   return (
     <Container className="position-sticky top-0 start-0 nav-cont z-3" fluid>
       <Row className="ps-5 pe-5 navbar">
@@ -32,10 +32,12 @@ export default function Navbar() {
         </Col>
         <Col md={2}>
           <div className="float-end">
-            <Button>Login</Button>
-            <Button className="ms-2 bg-light" variant="light">
-              Signup
-            </Button>
+            <Link className="btn btn-primary" to="/Login">
+              Login
+            </Link>
+            <Link className="btn btn-primary ms-2" to="/signup-donor">
+              SignUp
+            </Link>
           </div>
         </Col>
       </Row>

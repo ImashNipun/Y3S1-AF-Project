@@ -6,6 +6,9 @@ import AllRecipes from "./components/Recipe/AllRecipes";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AllRecipe from "./components/Admin/Recipe/AllRecipe";
 import AddRecipe from "./components/Admin/Recipe/AddRecipe";
+import DisplaySingleRecipe from "./components/Admin/Recipe/DisplaySingleRecipe";
+import UpdateRecipe from "./components/Admin/Recipe/UpdateRecipe";
+
 
 //--------------IT21028878-------------------
 
@@ -55,7 +58,9 @@ function App() {
       <Route path="/admin" element={<AdminDashboard />}>
         <Route index />
         <Route path="/admin/recipe" element={<AllRecipe />} />
-        <Route path="/admin/add-recipe" element={<AddRecipe />} />
+        <Route path="/admin/recipe/add-recipe" element={<AddRecipe />} />
+        <Route path="/admin/recipe/single-recipe/:rid" element={<DisplaySingleRecipe />} />
+        <Route path="/admin/recipe/update-recipe/:rid" element={<UpdateRecipe />} />
 
         <Route path="/admin/alldonors" element={<Alldonors />} />
 

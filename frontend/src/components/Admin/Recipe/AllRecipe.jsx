@@ -1,17 +1,31 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Container, Row, Col, Form, Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DisplayARecipe from "./DisplayARecipe";
 import RecipeRaw from "./RecipeRaw";
 
 export default function AllRecipe() {
-  const [modalShow, setModalShow] = useState(false);
-  const[recipeId,setRecipeId] = useState('');
+  const [recipes, setRecipes] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleModel = (e) =>{
-    setRecipeId(e);
-    setModalShow(true)
-  }
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/recipe/").then((response) => {
+      console.log(response);
+      setRecipes(response.data);
+    });
+  }, [isDeleted]);
+
+  const handleDelete = (id) => {
+    var isDelete = confirm("Are you sure you want to delete");
+
+    if (isDelete) {
+      axios
+        .delete(`http://localhost:8000/api/recipe/${id}`)
+        .then((response) => {
+          setIsDeleted(true);
+        });
+    }
+  };
 
   return (
     <Container>
@@ -23,7 +37,7 @@ export default function AllRecipe() {
             </Col>
             <Col>
               <Link
-                to="/admin/add-recipe"
+                to="/admin/recipe/add-recipe"
                 className="float-end btn btn-primary"
               >
                 Add a Recipe
@@ -48,15 +62,16 @@ export default function AllRecipe() {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <RecipeRaw handleModel={handleModel} rid={"cdiidj4ifiejife"}/>
-                <RecipeRaw handleModel={handleModel} rid={"lspwk4owdwq9du9w"}/>
-                <RecipeRaw handleModel={handleModel} rid={"cdii4wdwwwdiwoe0e9"}/>
+                <tbody>
+                  {recipes.map((recipes) => (
+                    <RecipeRaw
+                      handleDelete={handleDelete}
+                      data={recipes}
+                      key={recipes._id}
+                    />
+                  ))}
+                </tbody>
               </Table>
-              <DisplayARecipe
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-                recipeId={recipeId}
-              />
             </Col>
           </Row>
         </Col>
