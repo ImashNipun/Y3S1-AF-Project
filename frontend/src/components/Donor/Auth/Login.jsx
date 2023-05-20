@@ -5,10 +5,13 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import loginImg from "../../../img/5.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+
+  const navigate = useNavigate();
   const [userDetails,setUserDetails] = useState({
     email:"",
     password:""
@@ -18,7 +21,16 @@ const Login = () => {
   const handleSubmit = async(e) =>{
 
     e.preventDefault();
-    
+    axios.post("http://localhost:8000/api/auth/",userDetails).then((response) => {
+      console.log(response);
+      
+      document.cookie = `userAuth = ${response.data.email}`;
+      document.cookie = `token = ${response.accesstoken}`;
+
+
+
+
+    });
 
 
   }

@@ -6,6 +6,7 @@ const authenticateUser = async (req, res) => {
     try {
 
       const user = await User.findOne({ email: req.body.email });
+      console.log(req.body);
       if (!user)
         return res.status(401).send({ message: "Invalid Email or Password" });
   
