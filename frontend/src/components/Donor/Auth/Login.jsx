@@ -6,8 +6,23 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import loginImg from "../../../img/5.jpg";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Login = () => {
+  const [userDetails,setUserDetails] = useState({
+    email:"",
+    password:""
+  });
+
+
+  const handleSubmit = async(e) =>{
+
+    e.preventDefault();
+    
+
+
+  }
+
   return (
     <Container fluid>
       <Row className="m-auto text-center" style={{ width: "30%" }}>
@@ -27,7 +42,7 @@ const Login = () => {
             ></Col>
 
             <Col className="login-colB d-flex m-auto" md="6">
-              <Form className="login-frm">
+              <Form className="login-frm" onSubmit={handleSubmit}>
                 <h2>Sign in</h2>
 
                 {/* form lables */}
@@ -43,6 +58,8 @@ const Login = () => {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
+                    name ="email"
+                    onChange={(e)=>setUserDetails({...userDetails,[e.target.name]:e.target.value})}
                     required
                   />
                 </Form.Group>
@@ -58,6 +75,8 @@ const Login = () => {
                   <Form.Control
                     type="password"
                     placeholder="Enter password"
+                    name="password"
+                    onChange={(e)=>setUserDetails({...userDetails,[e.target.name]:e.target.value})}
                     required
                   />
                 </Form.Group>

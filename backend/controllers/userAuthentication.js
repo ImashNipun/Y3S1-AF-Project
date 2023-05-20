@@ -1,6 +1,5 @@
-const { User, validate } = require("../models/user");
+const User = require("../models/userModel")
 const jwt = require("jsonwebtoken");
-const Joi = require("joi");
 require("dotenv").config();
 
 const authenticateUser = async (req, res) => {
@@ -41,3 +40,7 @@ const authenticateUser = async (req, res) => {
       console.log(error);
     }
   };
+
+  module.exports = {
+    authenticateUser
+  }

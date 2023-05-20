@@ -10,6 +10,7 @@ const recipeRoute = require("./routes/recipeRoute");
 const donationRoute = require("./routes/donationsRoute");
 const donorRote = require("./routes/donorRoute");
 const requestRoute = require("./routes/requestRoute");
+const authRoute = require("./routes/authRoute");
 
 const PORT = process.env.PORT || 5000;
 
@@ -22,6 +23,7 @@ app.use("/api/recipe", recipeRoute);
 app.use("/api/donations", donationRoute);
 app.use("/api/donors", donorRote);
 app.use("/api/requests", requestRoute);
+app.use("/api/auth",authRoute);
 
 connection.once("open", () => {
   console.log("The database connection is succeed!!");
